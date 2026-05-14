@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heilreise zu den Walen 2027 · Baja California</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Jost:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    /* ─── Design Tokens ─────────────────────────────────── */
+    :root {
+      --ocean-deep:   oklch(23% 0.09 237);
+      --ocean-mid:    oklch(32% 0.10 232);
+      --ocean-light:  oklch(48% 0.10 225);
+      --sand:         oklch(96% 0.008 78);
+      --sand-warm:    oklch(93% 0.015 76);
+      --sand-mid:     oklch(85% 0.025 75);
+      --text-dark:    oklch(24% 0.07 237);
+      --text-body:    oklch(35% 0.02 238);
+      --text-muted:   oklch(55% 0.02 238);
+      --teal:         oklch(66% 0.13 202);
+      --teal-soft:    oklch(80% 0.08 202);
+
+      --font-display: 'Gilda Display', Georgia, serif;
+      --font-body:    'Jost', 'Helvetica Neue', sans-serif;
+
+      --sp-1:   4px;
+      --sp-2:   8px;
+      --sp-3:  12px;
+      --sp-4:  16px;
+      --sp-6:  24px;
+      --sp-8:  32px;
+      --sp-12: 48px;
+      --sp-16: 64px;
+      --sp-24: 96px;
+      --sp-36: 144px;
+    }
+
+    /* ─── Reset ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    img  { display: block; max-width: 100%; }
+
+    body {
+      font-family: var(--font-body);
+      font-weight: 300;
+      color: var(--text-dark);
+      background: var(--sand);
+      overflow-x: hidden;
+    }
+
+    /* ─── Navigation ─────────────────────────────────────── */
+    #nav {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 200;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--sp-6) var(--sp-12);
+      transition: background 0.5s ease, backdrop-filter 0.5s ease;
+    }
+    #nav.scrolled {
+      background: oklch(23% 0.09 237 / 0.95);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      color: var(--sand);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+    }
+    .nav-links {
+      display: flex;
+      gap: var(--sp-8);
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--teal-soft);
+      text-decoration: none;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--sand); }
+
+    /* ─── Hero ───────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      height: 100svh;
+      min-height: 600px;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+    }
+
+    .hero-media {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    /* Video startet unsichtbar, blendet ein sobald es wirklich abspielt */
+    .hero-video {
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+    .hero-video.playing {
+      opacity: 1;
+    }
+
+    .hero-veil {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom,
+          oklch(23% 0.09 237 / 0.55) 0%,
+          oklch(23% 0.09 237 / 0.25) 40%,
+          oklch(23% 0.09 237 / 0.65) 100%);
+    }
+
+    .hero-body {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: var(--sand);
+      padding: var(--sp-12) var(--sp-8);
+      max-width: 860px;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--teal-soft);
+      margin-bottom: var(--sp-8);
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 8vw, 6.5rem);
+      line-height: 1.05;
+      font-weight: 400;
+      margin-bottom: var(--sp-6);
+    }
+
+    .hero-sub {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(1.1rem, 2.6vw, 1.7rem);
+      line-height: 1.5;
+      color: oklch(90% 0.025 235);
+      margin-bottom: var(--sp-12);
+    }
+
+    .btn-outline {
+      display: inline-block;
+      padding: 14px 40px;
+      border: 1px solid var(--teal-soft);
+      color: var(--teal-soft);
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.3s, color 0.3s;
+    }
+    .btn-outline:hover {
+      background: oklch(80% 0.08 202 / 0.18);
+      color: var(--sand);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: var(--sp-8);
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--sp-2);
+      color: oklch(80% 0.05 235 / 0.6);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      z-index: 2;
+    }
+    .hero-scroll-line {
+      width: 1px;
+      height: 44px;
+      background: oklch(80% 0.05 235 / 0.4);
+      transform-origin: top;
+      animation: lineFlow 2.2s ease-in-out infinite;
+    }
+    @keyframes lineFlow {
+      0%   { transform: scaleY(0); transform-origin: top; opacity: 1; }
+      50%  { transform: scaleY(1); transform-origin: top; opacity: 1; }
+      50.1%{ transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; opacity: 0.3; }
+    }
+
+    /* ─── Intro banner ───────────────────────────────────── */
+    .intro {
+      background: var(--ocean-deep);
+      color: var(--sand);
+      padding: var(--sp-36) var(--sp-8);
+      text-align: center;
+    }
+    .intro-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: var(--sp-8);
+    }
+    .intro-quote {
+      font-family: var(--font-display);
+      font-size: clamp(1.7rem, 3.8vw, 3rem);
+      line-height: 1.35;
+      max-width: 780px;
+      margin: 0 auto var(--sp-8);
+      font-weight: 400;
+    }
+    .intro-body {
+      max-width: 58ch;
+      margin: 0 auto;
+      font-size: 1.02rem;
+      line-height: 1.85;
+      color: oklch(80% 0.02 235);
+    }
+
+    /* ─── Split layout ───────────────────────────────────── */
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 72vh;
+    }
+    .split.flip { direction: rtl; }
+    .split.flip > * { direction: ltr; }
+
+    .split-img {
+      overflow: hidden;
+    }
+    .split-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.9s ease;
+    }
+    .split-img:hover img { transform: scale(1.04); }
+
+    .split-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--sp-24) clamp(var(--sp-8), 7vw, 100px);
+      background: var(--sand);
+    }
+    .split.ocean .split-text {
+      background: var(--ocean-deep);
+      color: var(--sand);
+    }
+
+    .eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--teal);
+      font-weight: 500;
+      margin-bottom: var(--sp-6);
+    }
+    .split.ocean .eyebrow { color: var(--teal); }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.7rem, 3vw, 2.6rem);
+      line-height: 1.2;
+      font-weight: 400;
+      margin-bottom: var(--sp-6);
+    }
+
+    .section-body {
+      font-size: 0.98rem;
+      line-height: 1.95;
+      color: var(--text-body);
+      max-width: 50ch;
+    }
+    .split.ocean .section-body { color: oklch(80% 0.02 235); }
+
+    /* ─── Video Break ───────────────────────────────────────── */
+    .video-break {
+      position: relative;
+      height: 70vh;
+      overflow: hidden;
+      background: var(--ocean-deep);
+    }
+    .video-break-media {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ─── Panorama ───────────────────────────────────────── */
+    .panorama {
+      position: relative;
+      height: 65vh;
+      overflow: hidden;
+    }
+    .panorama img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 35%;
+    }
+    .panorama-veil {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top,
+        oklch(23% 0.09 237 / 0.85) 0%,
+        transparent 60%);
+    }
+    .panorama-text {
+      position: absolute;
+      bottom: var(--sp-12);
+      left: var(--sp-12);
+      right: var(--sp-12);
+      color: var(--sand);
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(1.1rem, 2.8vw, 1.9rem);
+      line-height: 1.45;
+      max-width: 620px;
+    }
+
+    /* ─── Route ──────────────────────────────────────────── */
+    .route {
+      background: var(--sand-warm);
+      padding: var(--sp-36) var(--sp-8);
+    }
+    .route-head {
+      text-align: center;
+      margin-bottom: var(--sp-16);
+    }
+    .route-head h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+    }
+    .route-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: var(--sp-8);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .route-stop {
+      padding: var(--sp-6) 0 var(--sp-8);
+      border-top: 1px solid var(--sand-mid);
+    }
+    .route-stop-tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--teal);
+      font-weight: 500;
+      margin-bottom: var(--sp-2);
+    }
+    .route-stop h3 {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 400;
+      margin-bottom: var(--sp-3);
+    }
+    .route-stop p {
+      font-size: 0.88rem;
+      line-height: 1.75;
+      color: var(--text-muted);
+    }
+
+    /* ─── Programme features ─────────────────────────────── */
+    .features {
+      background: var(--ocean-deep);
+      color: var(--sand);
+      padding: var(--sp-36) var(--sp-8);
+    }
+    .features-head {
+      text-align: center;
+      margin-bottom: var(--sp-16);
+    }
+    .features-head h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      color: var(--sand);
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--sp-8);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .feature {
+      padding: var(--sp-8) 0 var(--sp-6);
+      border-top: 1px solid oklch(38% 0.07 235);
+    }
+    .feature-num {
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      color: var(--teal);
+      font-weight: 500;
+      margin-bottom: var(--sp-3);
+    }
+    .feature h3 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--sand);
+      margin-bottom: var(--sp-4);
+    }
+    .feature p {
+      font-size: 0.88rem;
+      line-height: 1.85;
+      color: oklch(70% 0.02 235);
+    }
+
+    /* ─── Gallery ────────────────────────────────────────── */
+    .gallery {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 3px;
+      height: 85vh;
+      background: var(--ocean-deep);
+    }
+    .g-item {
+      overflow: hidden;
+    }
+    .g-item:first-child {
+      grid-row: 1 / 3;
+    }
+    .g-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s ease;
+    }
+    .g-item:hover img { transform: scale(1.05); }
+
+    /* ─── Pricing ────────────────────────────────────────── */
+    .pricing {
+      background: var(--sand);
+      padding: var(--sp-36) var(--sp-8);
+      text-align: center;
+    }
+    .pricing-head {
+      margin-bottom: var(--sp-16);
+    }
+    .pricing-head h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      margin-bottom: var(--sp-4);
+    }
+    .pricing-head p {
+      color: var(--text-muted);
+      max-width: 48ch;
+      margin: 0 auto;
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
+    .pricing-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--sp-6);
+      max-width: 820px;
+      margin: 0 auto var(--sp-12);
+      text-align: left;
+    }
+
+    .p-card {
+      background: var(--ocean-deep);
+      color: var(--sand);
+      padding: var(--sp-12) var(--sp-8);
+    }
+    .p-card.featured { background: var(--ocean-mid); }
+
+    .p-card-tag {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--teal);
+      font-weight: 500;
+      margin-bottom: var(--sp-6);
+    }
+    .p-card-price {
+      font-family: var(--font-display);
+      font-size: 3.8rem;
+      font-weight: 400;
+      line-height: 1;
+      margin-bottom: var(--sp-2);
+    }
+    .p-card-note {
+      font-size: 0.82rem;
+      color: oklch(70% 0.02 235);
+      margin-bottom: var(--sp-8);
+      line-height: 1.6;
+    }
+    .p-card-list {
+      list-style: none;
+      margin-bottom: var(--sp-8);
+    }
+    .p-card-list li {
+      padding: 9px 0;
+      border-top: 1px solid oklch(42% 0.07 235);
+      font-size: 0.88rem;
+      color: oklch(82% 0.02 235);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+    }
+    .p-card-list li::before {
+      content: '✦';
+      color: var(--teal);
+      font-size: 0.6rem;
+      flex-shrink: 0;
+    }
+    .p-card-excl {
+      font-size: 0.78rem;
+      color: oklch(52% 0.03 235);
+      line-height: 1.7;
+    }
+
+    .btn-solid {
+      display: inline-block;
+      padding: 16px 52px;
+      background: var(--ocean-deep);
+      color: var(--sand);
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+    .btn-solid:hover { background: var(--ocean-mid); }
+
+    /* ─── Contribution ───────────────────────────────────── */
+    .contribution {
+      background: var(--ocean-mid);
+      color: var(--sand);
+    }
+    .contribution-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .contribution-text {
+      padding: var(--sp-24) clamp(var(--sp-8), 7vw, 96px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .contribution-text h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.7rem, 3vw, 2.6rem);
+      font-weight: 400;
+      margin-bottom: var(--sp-6);
+    }
+    .contribution-text p {
+      font-size: 0.98rem;
+      line-height: 1.9;
+      color: oklch(82% 0.02 235);
+      max-width: 44ch;
+      margin-bottom: var(--sp-4);
+    }
+    .contribution-img {
+      overflow: hidden;
+      min-height: 400px;
+    }
+    .contribution-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ─── Framework ──────────────────────────────────────── */
+    .framework {
+      background: var(--sand-warm);
+      padding: var(--sp-36) var(--sp-8);
+    }
+    .framework-inner {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .framework-inner > .eyebrow { margin-bottom: var(--sp-4); }
+    .framework-inner h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 2.7rem);
+      font-weight: 400;
+      margin-bottom: var(--sp-6);
+      line-height: 1.2;
+    }
+    .framework-intro {
+      font-size: 0.98rem;
+      line-height: 1.9;
+      color: var(--text-body);
+      margin-bottom: var(--sp-16);
+    }
+    .fw-block {
+      margin-bottom: var(--sp-12);
+    }
+    .fw-block h3 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 400;
+      margin-bottom: var(--sp-3);
+    }
+    .fw-block p {
+      font-size: 0.93rem;
+      line-height: 1.9;
+      color: var(--text-body);
+    }
+    .fw-block p + p {
+      margin-top: var(--sp-4);
+    }
+    .fw-divider {
+      border: none;
+      border-top: 1px solid var(--sand-mid);
+      margin-bottom: var(--sp-12);
+    }
+
+    /* ─── Footer ─────────────────────────────────────────── */
+    footer {
+      background: var(--ocean-deep);
+      color: oklch(65% 0.02 235);
+      padding: var(--sp-16) var(--sp-8) var(--sp-12);
+      text-align: center;
+    }
+    .footer-name {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--sand);
+      margin-bottom: var(--sp-3);
+    }
+    footer .footer-sub {
+      font-size: 0.85rem;
+      margin-bottom: var(--sp-8);
+      line-height: 1.7;
+    }
+    footer a {
+      color: var(--teal);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    footer a:hover { color: var(--sand); }
+    footer .footer-date {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: oklch(40% 0.03 235);
+      margin-top: var(--sp-8);
+    }
+
+    /* ─── Fade-in animation ──────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+    .reveal.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── Responsive ─────────────────────────────────────── */
+    @media (max-width: 860px) {
+      #nav { padding: var(--sp-4) var(--sp-6); }
+      .nav-links { display: none; }
+
+      .split,
+      .split.flip { grid-template-columns: 1fr; direction: ltr; min-height: auto; }
+      .split-img { height: 58vw; }
+      .split-text { padding: var(--sp-12) var(--sp-6); }
+
+      .gallery {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 55vw 40vw;
+        height: auto;
+      }
+      .g-item:first-child { grid-row: 1; grid-column: 1 / 3; }
+
+      .contribution-inner { grid-template-columns: 1fr; }
+      .contribution-img { min-height: 55vw; }
+      .contribution-text { padding: var(--sp-12) var(--sp-6); }
+
+      .pricing-cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ──────────────────────────────────────── -->
+<nav id="nav">
+  <a class="nav-logo" href="#">Heilreise · Wale · 2027</a>
+  <ul class="nav-links">
+    <li><a href="#wale">Die Wale</a></li>
+    <li><a href="#programm">Programm</a></li>
+    <li><a href="#preise">Preise</a></li>
+    <li><a href="#rahmen">Rahmen</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+</nav>
+
+<!-- ── Hero ───────────────────────────────────────────── -->
+<section class="hero">
+  <!-- Fallback-Bild – immer sichtbar bis Video wirklich läuft -->
+  <img class="hero-media" src="IMG_1719.JPG" alt="Heilreise zu den Walen – Baja California">
+  <!-- Video liegt darüber, startet transparent und blendet erst ein wenn es spielt -->
+  <video
+    id="vid-hero"
+    class="hero-media hero-video"
+    autoplay muted loop playsinline preload="auto">
+    <source src="hero.mp4" type="video/mp4">
+  </video>
+
+  <div class="hero-veil"></div>
+
+  <div class="hero-body">
+    <p class="hero-eyebrow">22. Februar – 08. März 2027 · Baja California Sur, Mexiko</p>
+    <h1 class="hero-title">Heilreise<br>zu den Walen</h1>
+    <p class="hero-sub">Eine Reise zu den Walen. Und zu dir.</p>
+    <a href="#wale" class="btn-outline">Mehr entdecken</a>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- ── Intro ───────────────────────────────────────────── -->
+<section class="intro" id="wale">
+  <p class="intro-eyebrow">Golf von Kalifornien · UNESCO-Weltnaturerbe</p>
+  <h2 class="intro-quote reveal">
+    Von den Walen beschenkt werden<br>
+    und dem Meer etwas zurückgeben.
+  </h2>
+  <p class="intro-body reveal">
+    Wir begegnen den sanften Meeressäugern achtsam, respektvoll und tragen aktiv zum Schutz der Meere bei.
+    Der Golf von Kalifornien gilt seit Jacques Cousteau als das „Aquarium der Welt" – ein UNESCO-Weltnaturerbe
+    voller Blauwale, Buckelwale, Delfine, Seelöwen und und und…
+  </p>
+</section>
+
+<!-- ── Blauwale ────────────────────────────────────────── -->
+<div class="split">
+  <div class="split-img">
+    <img src="IMG_1722.jpeg" alt="Claudia mit Kapitän und Guide – Golf von Kalifornien">
+  </div>
+  <div class="split-text">
+    <span class="eyebrow">Teil I</span>
+    <h2 class="section-title reveal">Blauwale im<br>Golf von Kalifornien</h2>
+    <p class="section-body reveal">
+      Begegne den größten Tieren der Erde (über 30 m lang) so nah wie nirgendwo sonst auf der Welt.
+      Hier in den geschützten Buchten vom Golf von Kalifornien fühlen sie sich sicher und kommen
+      den Booten außergewöhnlich nah. Jahr für Jahr kehren sie zur Paarungszeit zurück.
+    </p>
+  </div>
+</div>
+
+<!-- ── Grauwale ────────────────────────────────────────── -->
+<div class="split ocean flip">
+  <div class="split-img">
+    <img src="IMG_2344.JPG" alt="Wir drei auf dem Panga-Boot – Laguna San Ignacio">
+  </div>
+  <div class="split-text">
+    <span class="eyebrow">Teil II</span>
+    <h2 class="section-title reveal">Grauwale in<br>Baja California Sur</h2>
+    <p class="section-body reveal">
+      Weltweit einzigartig: Nur hier kommen Grauwale so nah ans Boot, dass man sie fast anfassen kann.
+      Die zutraulichsten und verspieltesten Wale suchen aktiv die Begegnung mit uns Menschen –
+      in kleinen Panga-Booten und mit lokalen Fischern unternehmen wir inmitten des
+      UNESCO-Weltnaturerbes insgesamt 6 Waltouren über 3 Tage. Dies bildet das Herzstück der Reise.
+    </p>
+  </div>
+</div>
+
+<!-- ── Video Break (IMG_3702) ──────────────────────────── -->
+<div class="video-break">
+  <video class="video-break-media" id="vid-intro" autoplay muted loop playsinline preload="auto">
+    <source src="intro.mp4" type="video/mp4">
+  </video>
+</div>
+
+<!-- ── Panorama / Zitat ────────────────────────────────── -->
+<div class="panorama">
+  <img src="IMG_2216.JPG" alt="Sonnenuntergang auf dem Meer – Baja California">
+  <div class="panorama-veil"></div>
+  <p class="panorama-text">
+    „Es war, als wären all meine Mauern geschmolzen –<br>und ich war nur noch Herz."
+  </p>
+</div>
+
+<!-- ── Route ───────────────────────────────────────────── -->
+<section class="route" id="programm">
+  <div class="route-head reveal">
+    <span class="eyebrow" style="display:block; text-align:center; margin-bottom:12px;">Unsere Route</span>
+    <h2>Durch Baja California Sur</h2>
+  </div>
+  <div class="route-grid">
+    <div class="route-stop reveal">
+      <p class="route-stop-tag">Tag 1 – 6</p>
+      <h3>Loreto</h3>
+      <p>Ankunft, Transfer vom Flughafen, Eingewöhnen. Blauwale und Buckelwale im „Aquarium der Welt". 2 private Waltouren mit eigenem Kapitän.</p>
+    </div>
+    <div class="route-stop reveal">
+      <p class="route-stop-tag">Tag 6 – 11</p>
+      <h3>San Ignacio</h3>
+      <p>Das Herzstück der Reise. Grauwale in der Lagune – 3 Tage, 6 Touren. Glamping-Unterkunft mitten in der Oase, nahe der alten Mission.</p>
+    </div>
+    <div class="route-stop reveal">
+      <p class="route-stop-tag">Tag 11 – 14</p>
+      <h3>Rückkehr & Ausklang</h3>
+      <p>Gemeinsame Meditationen, Sharing-Kreise und die Integration des Erlebten. Transfer zum Flughafen.</p>
+    </div>
+    <div class="route-stop reveal">
+      <p class="route-stop-tag">Optional · Tag 14 – 17</p>
+      <h3>Contribution Days</h3>
+      <p>Aktiver Meeresschutz in Todos Santos & La Paz. Freilassung von Schildkrötenbabys, ein Tag als Forscherin auf hoher See.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Features ────────────────────────────────────────── -->
+<section class="features">
+  <div class="features-head reveal">
+    <span class="eyebrow" style="display:block; text-align:center; margin-bottom:12px;">Das Programm</span>
+    <h2>Ganzheitlich. Bewusst. Einzigartig.</h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature reveal">
+      <p class="feature-num">01</p>
+      <h3>Verantwortungsvolle Walbeobachtung</h3>
+      <p>Unsere Kapitäne und Guides sind speziell ausgebildet und halten sich an strenge Richtlinien zum Schutz der Wale.</p>
+    </div>
+    <div class="feature reveal">
+      <p class="feature-num">02</p>
+      <h3>Ganzheitliches Retreat</h3>
+      <p>Meditationen am Meer und Sharing-Kreise zur Integration der Walbegegnungen runden das Retreat ab. Optional können intensive 1:1-Sessions zur persönlichen Transformation hinzugebucht werden.</p>
+    </div>
+    <div class="feature reveal">
+      <p class="feature-num">03</p>
+      <h3>Vor- und Nachbereitung</h3>
+      <p>Vorbereitende Gruppen-Calls und ggf. Einzelsitzungen online. Nachsorge, um das Erlebte bestmöglich zu integrieren.</p>
+    </div>
+    <div class="feature reveal">
+      <p class="feature-num">04</p>
+      <h3>Die Wale entscheiden</h3>
+      <p>Kein Jagen, kein Drängen. Wir überlassen es den Walen, mit uns in Kontakt zu treten. Jede Begegnung ist ein Geschenk.</p>
+    </div>
+    <div class="feature reveal">
+      <p class="feature-num">05</p>
+      <h3>Kleine Gruppe</h3>
+      <p>Bewusst klein gehalten – für eine intensive, persönliche Erfahrung und um die Tiere so wenig wie möglich zu stören.</p>
+    </div>
+    <div class="feature reveal">
+      <p class="feature-num">06</p>
+      <h3>Schutz der Meere</h3>
+      <p>Optional: Contribution Days – 3 zusätzliche Tage für aktiven Meeresschutz. Den Tieren etwas zurückgeben von dem, was sie uns geschenkt haben.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Gallery ─────────────────────────────────────────── -->
+<div class="gallery">
+  <div class="g-item">
+    <img src="3D3BA624-20F0-4158-B7F2-9BA9C11A4DF0_1_105_c.jpeg" alt="Grauwal taucht auf – Baja California Sur">
+  </div>
+  <div class="g-item">
+    <img src="IMG_1714.JPG" alt="Claudia auf dem Boot – El Arco, Cabo San Lucas">
+  </div>
+  <div class="g-item">
+    <img src="IMG_2511.JPG" alt="Sonnenuntergang am Strand – Baja California">
+  </div>
+</div>
+
+<!-- ── Pricing ─────────────────────────────────────────── -->
+<section class="pricing" id="preise">
+  <div class="pricing-head reveal">
+    <span class="eyebrow" style="display:block; margin-bottom:12px;">Dein Platz</span>
+    <h2>Investition in deine Heilreise</h2>
+    <p>Sichere dir deinen Platz in der kleinen, persönlichen Gruppe (max. 6 Personen).</p>
+  </div>
+
+  <div class="pricing-cards">
+    <div class="p-card featured reveal">
+      <p class="p-card-tag">✦ Happy Whale · bis 15. September 2026</p>
+      <p class="p-card-price">3.600 €</p>
+      <p class="p-card-note">pro Person · du sparst 600 € gegenüber dem regulären Preis</p>
+      <ul class="p-card-list">
+        <li>Unterkünfte während der gesamten Reise</li>
+        <li>Transport vor Ort</li>
+        <li>Alle Waltouren (8 Touren inklusive)</li>
+        <li>Eintritt zu den Nationalparks</li>
+        <li>Frühstück & Brunch täglich</li>
+        <li>Transfer zum Flughafen</li>
+        <li>Vor- & Nachbereitung (online)</li>
+      </ul>
+      <p class="p-card-excl">Nicht inklusive: Flug · Auslands-KV · Abendessen · 1:1-Sessions · ggf. Trinkgeld</p>
+    </div>
+
+    <div class="p-card reveal">
+      <p class="p-card-tag">Late Whale · ab 16. September 2026</p>
+      <p class="p-card-price">4.200 €</p>
+      <p class="p-card-note">pro Person · zzgl. optionale Contribution Days +500 €</p>
+      <ul class="p-card-list">
+        <li>Unterkünfte während der gesamten Reise</li>
+        <li>Transport vor Ort</li>
+        <li>Alle Waltouren (8 Touren inklusive)</li>
+        <li>Eintritt zu den Nationalparks</li>
+        <li>Frühstück & Brunch täglich</li>
+        <li>Transfer zum Flughafen</li>
+        <li>Vor- & Nachbereitung (online)</li>
+      </ul>
+      <p class="p-card-excl">Nicht inklusive: Flug · Auslands-KV · Abendessen · 1:1-Sessions · ggf. Trinkgeld</p>
+    </div>
+  </div>
+
+  <a href="#kontakt" class="btn-solid reveal">Ich bin dabei!</a>
+</section>
+
+<!-- ── Contribution Days ───────────────────────────────── -->
+<div class="contribution">
+  <div class="contribution-inner">
+    <div class="contribution-text">
+      <span class="eyebrow" style="color: var(--teal);">Optional · +500 €</span>
+      <h2 class="reveal">Contribution Days</h2>
+      <p class="reveal">
+        Drei zusätzliche Tage in Todos Santos & La Paz: Mitarbeit im Meeresschutz,
+        Turtle Release (Schildkrötenbabys ins Meer freilassen) und „Scientist for a Day" –
+        ein ganzer Tag auf einem Forschungsboot (Wale zählen, identifizieren und ihre Gesänge aufnehmen).
+      </p>
+      <p class="reveal">
+        Den Tieren etwas zurückgeben von dem, was sie uns geschenkt haben.
+      </p>
+    </div>
+    <div class="contribution-img">
+      <img src="IMG_2515.JPG" alt="Gemeinsam am Strand – Baja California Sur">
+    </div>
+  </div>
+</div>
+
+<!-- ── Framework ──────────────────────────────────────── -->
+<section class="framework" id="rahmen">
+  <div class="framework-inner">
+    <span class="eyebrow">Rahmen & Hinweise</span>
+    <h2>Heilreise zu den Walen in Mexiko</h2>
+    <p class="framework-intro reveal">
+      Diese Reise lädt dich ein, in die Weite des Ozeans einzutauchen und Walen in ihrem natürlichen
+      Lebensraum zu begegnen – getragen von Stille, Präsenz und einem bewussten Erleben der Natur.
+      Es ist eine Reise, die dich nach außen führt und gleichzeitig nach innen.
+    </p>
+
+    <hr class="fw-divider">
+
+    <div class="fw-block reveal">
+      <h3>🌿 Der Rahmen der Reise</h3>
+      <p>Diese Heilreise findet in einer sehr ursprünglichen und abgelegenen Region statt, fernab dichter Infrastruktur und mit begrenzter Nähe zu medizinischer Versorgung. Genau diese Abgeschiedenheit ist Teil der Erfahrung – sie öffnet einen Raum, in dem Natur wieder unmittelbar spürbar wird.</p>
+      <p>Die Reise umfasst Aufenthalte auf dem offenen Meer sowie Begegnungen mit Wildtieren in freier Natur. Wetter, Meer und Tiere folgen ihrem eigenen Rhythmus – nicht unserem.</p>
+    </div>
+
+    <hr class="fw-divider">
+
+    <div class="fw-block reveal">
+      <h3>🌊 Bewusstes Erleben & Eigenverantwortung</h3>
+      <p>Diese Reise ist kein klassisches Tourismusangebot, sondern eine bewusst gestaltete Erfahrung im Zusammenspiel mit der Natur. Du bist eingeladen, achtsam mit dir selbst zu sein, deine Grenzen wahrzunehmen und die Anweisungen der Begleitung sowie der lokalen Kapitäne und Guides zu respektieren.</p>
+      <p>Sollten während der Reise Fragen oder Unstimmigkeiten entstehen, ist ein offener und zeitnaher Austausch Teil des gemeinsamen Raums, um Klarheit und Harmonie zu fördern.</p>
+    </div>
+
+    <hr class="fw-divider">
+
+    <div class="fw-block reveal">
+      <h3>🐋 Begegnungen mit Walen</h3>
+      <p>Die Begegnung mit Walen geschieht in ihrem natürlichen Rhythmus und kann nicht erzwungen oder garantiert werden. Jede Sichtung ist ein Geschenk des Moments und der Natur.</p>
+    </div>
+
+    <hr class="fw-divider">
+
+    <div class="fw-block reveal">
+      <h3>🤍 Innere Reise</h3>
+      <p>Neben der äußeren Bewegung im Ozean ist diese Reise auch eine Einladung zur inneren Ausrichtung, zur Stille und zur Rückverbindung mit deiner eigenen Wahrnehmung. Sie ersetzt keine medizinische oder therapeutische Behandlung, sondern versteht sich als ergänzender Erfahrungsraum.</p>
+    </div>
+
+    <hr class="fw-divider">
+
+    <div class="fw-block reveal">
+      <h3>🌺 Teilnahme & Buchung</h3>
+      <p>Dein Platz ist verbindlich reserviert, sobald eine Anzahlung auf dem Konto eingeht. Der verbleibende Betrag wird bis vor Reisebeginn vollständig ausgeglichen. Eine flexible Weitergabe des Platzes an eine geeignete Ersatzperson ist nach Absprache möglich. Stornierungen sind bis zu bestimmten Zeitpunkten anteilig möglich und dienen einem fairen und klaren Rahmen für alle Beteiligten.</p>
+    </div>
+
+    <hr class="fw-divider">
+
+    <div class="fw-block reveal">
+      <h3>🌬️ Einladung</h3>
+      <p>Diese Reise ist eine Einladung, dich dem Leben auf eine ursprüngliche Weise zu nähern – im Kontakt mit dem Meer, den Walen und mit dir selbst. Mit Offenheit. Mit Wertschätzung. Mit Präsenz.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ──────────────────────────────────────────── -->
+<footer id="kontakt">
+  <p class="footer-name">Claudia Braune</p>
+  <p class="footer-sub">
+    Heilreise zu den Walen in Mexiko 2027<br>
+    Fragen? Schreib mir:&nbsp;
+    <a href="mailto:claudia.braune@gmx.net">claudia.braune@gmx.net</a>
+  </p>
+  <p class="footer-date">22. Februar – 08. März 2027 · Baja California Sur, Mexiko</p>
+</footer>
+
+<script>
+  /* ── Sticky nav ──────────────────────────────── */
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  /* ── Video autoplay ─────────────────────────── */
+  function tryPlay(v) {
+    if (!v) return;
+    v.muted = true;
+    v.addEventListener('playing', () => v.classList.add('playing'), { once: true });
+    const p = v.play();
+    if (p !== undefined) {
+      p.catch(() => {
+        // Fallback: beim ersten Nutzer-Kontakt nochmals versuchen
+        const retry = () => v.play().catch(() => {});
+        document.addEventListener('click',      retry, { once: true });
+        document.addEventListener('touchstart', retry, { once: true });
+        document.addEventListener('scroll',     retry, { once: true });
+      });
+    }
+  }
+
+  // Hero-Video sofort starten
+  tryPlay(document.getElementById('vid-hero'));
+
+  // Intro-Video per IntersectionObserver starten sobald es sichtbar wird
+  // (nötig auf iOS/Android, da Videos außerhalb des Viewports nicht autoplayen)
+  const vidIntro = document.getElementById('vid-intro');
+  if (vidIntro) {
+    const io2 = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          tryPlay(vidIntro);
+          io2.unobserve(vidIntro);
+        }
+      });
+    }, { threshold: 0.1 });
+    io2.observe(vidIntro);
+  }
+
+  /* ── Scroll reveal ───────────────────────────── */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
