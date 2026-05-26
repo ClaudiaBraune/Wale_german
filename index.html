@@ -690,17 +690,15 @@
     }
     .about-stacked-text .section-body + .section-body { margin-top: var(--sp-4); }
     .about-stacked-img {
-      overflow: hidden;
-      height: 70vh;
+      max-width: 720px;
+      margin: 0 auto var(--sp-36);
+      padding: 0 clamp(var(--sp-8), 7vw, 100px);
     }
     .about-stacked-img img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center 20%;
-      transition: transform 0.9s ease;
+      height: auto;
+      display: block;
     }
-    .about-stacked-img:hover img { transform: scale(1.04); }
 
     /* ─── Fade-in animation ──────────────────────────────── */
     .reveal {
